@@ -41,7 +41,12 @@ gulp.task("compile", ["tslint"], () => {
  * Copy all resources that are not TypeScript files into build directory.
  */
 gulp.task("resources", () => {
-    return gulp.src(["src/**/*", "!**/*.ts"])
+    return gulp.src(["src/**/*", "!**/*.ts", "!src/server/**"])
+        .pipe(gulp.dest("build"));
+});
+
+gulp.task("server", function () {
+    return gulp.src(["src/server/index.js", "src/server/package.json"])
         .pipe(gulp.dest("build"));
 });
 
@@ -76,6 +81,6 @@ gulp.task('watch', function () {
 /**
  * Build the project.
  */
-gulp.task("build", ['compile', 'resources', 'libs'], () => {
+gulp.task("build", ['compile', 'resources', 'libs', 'server'], () => {
     console.log("Building the project ...");
 });
